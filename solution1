@@ -1,0 +1,31 @@
+import pandas as pd
+import requests
+import io
+url ="https://raw.githubusercontent.com/spreethi1/internship-test2/master/input/question-1/main.csv"
+download = requests.get(url).content
+df = pd.read_csv(io.StringIO(download.decode('utf-8')))
+
+y=[]
+l1=df["Year"]
+for i in range(0,len(l1),10):
+    y.append(l1[i])
+    
+p1=df["Population"]
+p=[]
+for i in range(9,len(p1),10):
+    p.append(p1[i])
+p.append(p1[len(p1)-1])
+
+l=df.columns
+def sol(l):
+    x=[]
+    for i in range(0,len(l),10):
+        if(i+10<=len(l)):
+            s=sum(l[i:i+10])
+            x.append(s)
+    x.append(sum(l[i:]))
+    return x
+d={'Year': y, 'Population': p, l[3]:sol(df[l[3]]), l[4]:sol(df[l[4]]) , l[5]:sol(df[l[5]]), l[6]:sol(df[l[6]]), l[7]:sol(df[l[7]]), l[8]:sol(df[l[8]]), l[9]:sol(df[l[9]]), l[10]:sol(df[l[10]]), l[11]:sol(df[l[11]])}
+
+df = pd.DataFrame(d)  
+print(df)
