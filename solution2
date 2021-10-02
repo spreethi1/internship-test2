@@ -1,0 +1,26 @@
+import pandas as pd
+import requests
+import io
+url ="https://raw.githubusercontent.com/Bungeetech/internship-test2/master/input/question-2/main.csv"
+download = requests.get(url).content
+df = pd.read_csv(io.StringIO(download.decode('utf-8')))
+d={}
+occ=df["occupation"]
+age=df["age"]
+for i in range(len(occ)):
+    if(occ[i] not in d):
+        d[occ[i]]=[age[i],age[i]]
+    else:
+        if(age[i]<d[occ[i]][0]):
+            d[occ[i]][0]=age[i]
+        if(age[i]>d[occ[i]][1]):
+            d[occ[i]][1]=age[i]
+l=sorted((list(d.keys())))
+ml=[]
+mx=[]
+for i in l:
+    ml.append(d[i][0])
+    mx.append(d[i][1])
+d= {'occupation': l, 'min': ml, 'max':mx}
+df = pd.DataFrame(d)  
+print(df)
